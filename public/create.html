@@ -16,17 +16,54 @@
             <a class="center brand-logo col s4">POLLING APP</a>
         </div>
     </nav>
-    <div id="form" class="">
-        <form action="/api/poll" enctype="multipart/form-data" method="post">
-            <div class="input-field col s6">
-                <input id="question" type="text" class="validate" name="question">
+    <div id="form">
+        <form id="form-input" action="/api/poll" enctype="multipart/form-data" method="post">
+            <div class="input-field col s12">
+                <textarea id="question" class="materialize-textarea" type="text" length="150" name="question"></textarea>
                 <label for="question">Question</label>
             </div>
-            <div id="options">
+            <div id="options" style="width: 75%">
+                <div id="1" class="input-field col s6">
+                    <input id="option" type="text" length="50" name="1">
+                    <label for="option">Option 1</label>
+                </div>
             </div>
-            <button>Submit</button>
+            <br/>
+            <a id="add-option" class="right btn-floating btn-small waves-effect waves-light red"><i class="material-icons">add</i></a>
+            <br/>
+            <div id="form-button">
+                <a class="waves-effect waves-light btn">Submit</a>
+            </div>
         </form>
     </div>
+    <script type="text/javascript">
+    window.onload = function() {
+        makeDivsClickable()
+    }
+
+    function addOption() {
+        var options = document.getElementById('options')
+        var id = options.children.length + 1
+        var html = ""
+        html += "<div id=\"" + id + "\" class=\"input-field col s6\">"
+        html += "<input id=\"option\" type=\"text\" length=\"50\" name=\"" + id + "\">"
+        html += "<label for=\"option\">Option " + id + "</label>"
+        html += "</div>"
+        options.insertAdjacentHTML('beforeend', html);
+
+    }
+
+    function makeDivsClickable() {
+        var button = document.getElementById('form-button')
+        button.addEventListener('click', function() {
+            document.getElementById('form-input').submit()
+        })
+        var insert = document.getElementById('add-option')
+        insert.addEventListener('click', function() {
+            addOption()
+        })
+    }
+    </script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
 </body>
