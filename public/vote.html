@@ -7,12 +7,19 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
     <style type="text/css">
     .col {
         display: inline-block;
         width: 99%;
         padding: 2%;
+    }
+    /*    #modal-div {
+        text-overflow: scroll;
+    }*/
+    
+    #modal-content {
+        width: 100% !important;
+        height: 100% !important;
     }
     
     @media all and (min-width: 720px) {
@@ -37,9 +44,18 @@
     <div id = "votecards" class="container responsive" style="width:100%">
     </div>
 
-  	<script type="text/javascript" src="js/vote.js"></script>
+
+	<div id="modal" class="modal responsive">
+	    <div id="modal-content" class="modal-content">
+	    </div>
+	</div>
+
+
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
+       	<script type="text/javascript" src="js/vote.js"></script>
+
 </body>
 
 </html>

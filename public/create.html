@@ -8,6 +8,12 @@
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
     <link rel="stylesheet" type="text/css" href="css/create.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style type="text/css">
+    #toast-container {
+        padding: 5% !important;
+        text-align: center;
+    }
+    </style>
 </head>
 
 <body>
@@ -26,6 +32,10 @@
                 <div id="1" class="input-field col s6">
                     <input id="option1" class="validate" type="text" maxlength="150" name="1">
                     <label for="option">Option 1</label>
+                </div>
+                <div id="2" class="input-field col s6">
+                    <input id="option2" class="validate" type="text" maxlength="150" name="2">
+                    <label for="option">Option 2</label>
                 </div>
             </div>
             <div class="right" style="width: 50px; height: 100px;">
@@ -69,35 +79,37 @@
     function makeDivsClickable() {
         var button = document.getElementById('form-button')
         button.addEventListener('click', function() {
-    	if (checkFilled()) {
+            if (checkFilled()) {
                 document.getElementById('form-input').submit()
             } else {
-            	Materialize.toast("Don't leave any of the fields empty", 2000, 'rounded')
-                //alert("Don't leave any of the fields empty")
+                Materialize.toast("Don't leave any field empty", 2000, 'rounded')
             }
         })
         document.getElementById('add-option').addEventListener('click', function() {
-        	if(checkFilled()) {
-            	addOption()        		
-        	} else {        		
-                Materialize.toast("Don't leave any of the fields empty", 2000, 'rounded')
-                //alert("Don't leave any of the fields empty")
-        	}
+            if (checkFilled()) {
+                addOption()
+            } else {
+                Materialize.toast("Don't leave any field empty", 2000, 'rounded')
+            }
         })
         document.getElementById('remove-option').addEventListener('click', function() {
-            removeOption()
+            var options = document.getElementById('options').children.length
+            if (options > 2) {
+                removeOption()
+            }
         })
+
         function checkFilled() {
-        	var options = document.getElementById('options').children.length
-        	var flag = true
-            if (document.getElementById('question').value.length > 0) {                
+            var options = document.getElementById('options').children.length
+            var flag = true
+            if (document.getElementById('question').value.length > 0) {
                 for (var i = 1; i <= options; i++) {
                     if (document.getElementById("option" + i).value.length <= 0) {
                         flag = false
                     }
-                }                
+                }
             } else {
-            	flag = false
+                flag = false
             }
             return flag
         }

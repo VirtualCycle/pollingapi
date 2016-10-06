@@ -4,6 +4,12 @@
     margin-top: 50px;
 }
 
+@media all and (max-width: 720px) {
+    #form {
+        width: 90%;
+    }
+}
+
 #form-button {
     width: 150px;
 }
