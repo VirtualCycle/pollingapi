@@ -4,37 +4,33 @@ const formidable = require('formidable')
 var client = redis.createClient({ port: 6379, host: '127.0.0.1', db: 1 })
 
 module.exports = function(app) {
-    app.post('/api/vote/:option', function(req, res) {
+    app.post('/api/vote/:id', function(req, res) {
         var ip = req.headers['x-forwarded-for'] ||
             req.connection.remoteAddress ||
             req.socket.remoteAddress ||
             req.connection.socket.remoteAddress
-        var option = req.params.option
-        var form = new formidable.IncomingForm()
-        form.parse(req, function(err, fields) {
-                console.log(fields)
-            })
-            // var data = option.split('+')
-        var arr = []
+        var id = req.params.id
+        var option = req.body.option
         console.log(option)
-            // console.log(req.body)
-            // client.hset('ip', ip, 1, function(err, reply) {
-            //     arr.push(reply)
-            //     if (reply) {
-            //         client.hget('pollOptions:' + data[0], data[1], function(err, reply) {
-            //             var votes = parseInt(reply) + 1
-            //             client.hset('pollOptions:' + data[0], data[1], votes, function(err, reply) {
-            //                 console.log(reply)
-            //             })
-            //             client.hget('pollOptions:' + data[0], 'pollCount', function(err, reply) {
-            //                 var count = parseInt(reply) + 1
-            //                 client.hset('pollOptions:' + data[0], 'pollCount', count, function(err, reply) {
-            //                     console.log(reply)
-            //                 })
-            //             })
-            //         })
-            //     }
-        res.send(arr)
-            // })
+        var hasVoted = ''
+        client.hset('ip', ip + id, 1, function(err, reply) {
+            hasVoted += reply
+            console.log(reply)
+            if (reply != 0) {
+                client.hget('pollOptions:' + id, option, function(err, reply) {
+                    var votes = parseInt(reply) + 1
+                    client.hset('pollOptions:' + id, option, votes, function(err, reply) {
+                        console.log(reply)
+                    })
+                    client.hget('pollOptions:' + id, 'pollCount', function(err, reply) {
+                        var count = parseInt(reply) + 1
+                        client.hset('pollOptions:' + id, 'pollCount', count, function(err, reply) {
+                            console.log(reply)
+                        })
+                    })
+                })
+            }
+            res.send(JSON.stringify(hasVoted))
+        })
     })
 }

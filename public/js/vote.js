@@ -37,7 +37,6 @@ function createCard(pollId) {
             html += '<div class="card teal darken-1">'
             html += '<div class="card-content white-text">'
             html += '<span class="card-title">' + question + '</span>'
-                // html += '<p>dlfljadslfjalsjdfljaljdfljaldfjlajdflkjasldjflajk</p>'
             html += '</div>'
             html += '<div class="card-action">'
             html += '<div id="vote-button" class="col">'
@@ -77,18 +76,46 @@ function getData(pollId) {
                 }
                 count++
             })
-            html += '<div id="modal-submit"><a class="waves-effect waves-light btn">Submit</a></div>'
             html += '</form>'
+            html += '<br/><div id="modal-submit"><a class="waves-effect waves-light btn">Submit</a></div>'
             document.getElementById('modal-content').innerHTML = html
-            makeButtonsClickable()
+            makeButtonsClickable(pollId)
         }
     }
     xhr.send()
 }
 
-function makeButtonsClickable() {
+function makeButtonsClickable(pollId) {
     var button = document.getElementById('modal-submit')
     button.addEventListener('click', function() {
-        document.getElementById('modal-form').submit()
+        var obj = {}
+        var options = document.getElementById('modal-form').childNodes
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].firstChild.checked) {
+                obj['option'] = options[i].firstChild.value
+            }
+        }
+        if (obj.hasOwnProperty('option')) {
+            $('#modal').closeModal()
+            vote(obj, pollId)
+        }
     })
+}
+
+function vote(option, pollId) {
+    console.log(option)
+    var xhr = new XMLHttpRequest()
+    xhr.open('POST', `/api/vote/${pollId}`, true)
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            response = xhr.responseText
+            if (response == 1) {
+                console.log(response)
+            } else {
+                Materialize.toast('You have already voted on this poll', 5000, 'rounded')
+            }
+        }
+    }
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify(option))
 }

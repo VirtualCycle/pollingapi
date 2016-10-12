@@ -14,7 +14,7 @@ module.exports = function(app) {
             client.get('pollId', function(err, reply) {
                 var pollId = parseInt(reply)
                 set(pollId, question, pollOptions)
-                console.log(fields, question)
+                    // console.log(fields, question)
             })
             res.redirect('/vote')
         })
@@ -45,7 +45,7 @@ module.exports = function(app) {
         client.hgetall('poll:' + pollId, function(err, reply) {
             if (reply) {
                 obj['question'] = reply['question']
-                console.log(reply)
+                    // console.log(reply)
                 client.hgetall('pollOptions:' + pollId, function(err, reply) {
                     obj['options'] = reply
                     res.send(obj)
@@ -65,7 +65,7 @@ module.exports = function(app) {
     app.get('/api/getquestion/:id', function(req, res) {
         var id = req.params.id
         client.hgetall('poll:' + id, function(err, reply) {
-            console.log(reply)
+            // console.log(reply)
             res.send(reply)
         })
     })
