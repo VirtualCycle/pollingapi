@@ -12,9 +12,10 @@ module.exports = function(app) {
         var id = req.params.id
         var option = req.body.option
         console.log(option)
-        var hasVoted = ''
-        client.hset('ip', ip + id, 1, function(err, reply) {
-            hasVoted += reply
+        var arr = []
+        client.hset('ip', ip + ':' + id, 1, function(err, reply) {
+            arr.push(reply)
+            arr.push(id)
             console.log(reply)
             if (reply != 0) {
                 client.hget('pollOptions:' + id, option, function(err, reply) {
@@ -30,7 +31,7 @@ module.exports = function(app) {
                     })
                 })
             }
-            res.send(JSON.stringify(hasVoted))
+            res.send(JSON.stringify(arr))
         })
     })
 }

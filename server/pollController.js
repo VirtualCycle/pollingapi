@@ -16,7 +16,7 @@ module.exports = function(app) {
                 set(pollId, question, pollOptions)
                     // console.log(fields, question)
             })
-            res.redirect('/vote')
+            res.redirect('/')
         })
     })
 

@@ -14,9 +14,18 @@
         padding: 2%;
     }
     
+    .lean-overlay {
+        height: auto !important;
+    }
+    
     #modal-content {
         width: 100% !important;
         height: 100% !important;
+    }
+    
+    #toast-container {
+        padding: 5% !important;
+        text-align: center;
     }
     
     @media all and (min-width: 720px) {
@@ -36,28 +45,23 @@
         </div>
     </nav>
     <div>
-        <h3 class="center">Available Polls</h1>
+        <h3 class="center">Available Polls</h3>
     </div>
-
-    <div id = "votecards" class="container responsive" style="width:100%">
+    <div id="votecards" class="container responsive" style="width:100%">
     </div>
-
-	<div id="modal" class="modal responsive">
-	    <div id="modal-content" class="modal-content">
-	    </div>
-	</div>
-
-	<div id="graph-modal" class="modal responsive">
-	    <div id="graph-content" class="modal-content">
-	    </div>
-	</div>
-
-	
+    <div id="modal" class="modal responsive">
+        <div id="modal-content" class="modal-content">
+        </div>
+    </div>
+    <div id="graph-modal" class="modal responsive">
+        <div id="graph-content" class="modal-content">
+            <!-- <canvas style="width: auto; height: auto;"></canvas> -->
+        </div>
+    </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
-   	<script src="https://d3js.org/d3.v4.min.js"></script>
-   	<script type="text/javascript" src="js/vote.js"></script>
-
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="js/vote.js"></script>
 </body>
 
 </html>

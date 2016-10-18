@@ -67,7 +67,6 @@
         html += "<label for=\"option\">Option " + id + "</label>"
         html += "</div>"
         options.insertAdjacentHTML('beforeend', html);
-
     }
 
     function removeOption() {
@@ -79,17 +78,27 @@
     function makeDivsClickable() {
         var button = document.getElementById('form-button')
         button.addEventListener('click', function() {
-            if (checkFilled()) {
-                document.getElementById('form-input').submit()
+            if (checkSimilar()) {
+                if (checkFilled()) {
+                    document.getElementById('form-input').submit()
+                } else {
+                    Materialize.toast("Don't leave any field empty", 2000, 'rounded')
+                }
             } else {
-                Materialize.toast("Don't leave any field empty", 2000, 'rounded')
+                Materialize.toast("Two options can't be same", 3000, 'rounded')
+
             }
+
         })
         document.getElementById('add-option').addEventListener('click', function() {
-            if (checkFilled()) {
-                addOption()
+            if (checkSimilar()) {
+                if (checkFilled()) {
+                    addOption()
+                } else {
+                    Materialize.toast("Don't leave any field empty", 2000, 'rounded')
+                }
             } else {
-                Materialize.toast("Don't leave any field empty", 2000, 'rounded')
+                Materialize.toast("Two options can't be same", 3000, 'rounded')
             }
         })
         document.getElementById('remove-option').addEventListener('click', function() {
@@ -113,6 +122,26 @@
             }
             return flag
         }
+    }
+
+    function checkSimilar() {
+        var options = document.getElementById('options').children
+        var count = options.length
+        var flag = true
+        var current = document.getElementById('option' + count).value.trim().toLowerCase()
+        while (count > 0) {
+            current = document.getElementById('option' + count).value.trim().toLowerCase()
+            for (var i = 1; i <= options.length; i++)
+                if (i !== count) {
+                    var input = document.getElementById('option' + i).value.trim().toLowerCase()
+                    if (input === current) {
+                        flag = false
+                    }
+                }
+            count--
+
+        }
+        return flag
     }
     </script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
